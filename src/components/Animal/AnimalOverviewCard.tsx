@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid } from "@material-ui/core";
+import { Box, Typography, Grid, Paper } from "@material-ui/core";
 import { getAllanimals } from "../../routes/animalDataRoutes";
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from "clsx";
 
 const useStyles = makeStyles({
     overviewBox: {
       height: '100px',
-      border: '1px solid black',
-      width: '90',
+      border: '1px solid green',
+      borderRadius: "10%",
       cursor: "pointer",
+      padding: '5px',
+      marginBottom: '5px',
     },
     animalStatus: {
         fontSize: '1.1rem',
         fontWeight: 'bold',
+    },
+    selected: {
+        backgroundColor: 'grey',
+        border: '5px solid green',
     },
   });
 
@@ -25,24 +32,26 @@ interface AnimalOverviewCardProps {
         image_url: string,
     },
     setSelectedAnimal: Function,
+    selected: boolean,
 }
 
-const AnimalOverviewCard = ({ animal, setSelectedAnimal }: AnimalOverviewCardProps) => {
+const AnimalOverviewCard = ({ animal, setSelectedAnimal, selected }: AnimalOverviewCardProps) => {
     const classes = useStyles();
     const { name, status, latin_name } = animal;
 
     console.log(name);
 
     return (
-        <Box className={classes.overviewBox} onClick={() => setSelectedAnimal(animal)}>
-            <Grid container>
-                <Grid item xs={12}>
-                    <Typography variant="h6" align="center">{name}</Typography>
-                    <Typography className={classes.animalStatus} variant="h6" align="center">{status}</Typography>
-                    <Typography align="center">{latin_name}</Typography>
-                </Grid>
-            </Grid>
-        </Box>
+            <Paper 
+            className={clsx({
+                [classes.overviewBox]: true,
+                [classes.selected]: selected,
+            })} 
+            onClick={() => setSelectedAnimal(animal)}>
+                <Typography variant="h6" align="center">{name}</Typography>
+                <Typography className={classes.animalStatus} variant="h6" align="center">{status}</Typography>
+                <Typography align="center">{latin_name}</Typography>
+            </Paper>
     )
 }
 

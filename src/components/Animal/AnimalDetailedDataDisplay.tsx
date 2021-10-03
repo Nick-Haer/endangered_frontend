@@ -13,11 +13,20 @@ const useStyles = makeStyles({
     image: {
         width: '150px',
         height: '150px',
-        border: '1px solid black'
+        border: '1px solid black',
+        marginTop: '20px',
+        marginRight: '20px',
     },
     animalStatus: {
         fontSize: '1.1rem',
         fontWeight: 'bold',
+    },
+    animalDescription: {
+        padding: '15px',
+        color: 'green',
+    },
+    placeHolderDescription: {
+        color: 'green',
     },
   });
 
@@ -51,9 +60,11 @@ const AnimalDetailedDisplay = ({ selectedAnimal }: AnimalDetailedProps) => {
                      <img className={classes.image} src={image_url === 'none' ? placeholderImage : image_url} alt="animal" />
                 </Grid>
                 {description ? (
-                <Typography>{description}</Typography>
+                <Typography className={classes.animalDescription}>{description}</Typography>
                 ) : (
-                <Typography align="center">No Description Found</Typography>
+                    <Grid item xs={12}>
+                        <Typography className={classes.placeHolderDescription} align="center">No Description Found</Typography>
+                    </Grid>
                 )}
              </Grid>
     )

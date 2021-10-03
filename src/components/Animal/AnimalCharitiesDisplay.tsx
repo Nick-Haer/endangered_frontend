@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Button, Popper, Popover, Paper, Link } from "@material-ui/core";
+import { Box, Typography, Grid, Button, Popper, 
+    Popover, Paper, Link, ClickAwayListener, CircularProgress } from "@material-ui/core";
 import { getMatchingCharities } from "../../routes/animalDataRoutes";
 import { makeStyles } from '@material-ui/core/styles';
 import placeholderImage from "../../images/large-group-african-safari-animals-wildlife-conservation-concept-174172993.jpeg"
 
 const useStyles = makeStyles({
-    overviewBox: {
+    paperCharitiesList: {
       border: '1px solid black',
       padding: '10px',
+      height: '400px',
+      overflow: 'auto',
+      minWidth: '400px',
     },
+    paperLinkContainer: {
+        border: '1px solid green',
+        marginBottom: '10px',
+        padding: '15px',
+        textAlign: 'center',
+    },
+    viewCharitiesButton: {
+        color: '#00008b',
+    },
+    circularProgress: {
+        display: 'block',
+        margin: '35% auto',
+    }
   });
 
 interface CharitiesProps {
@@ -29,6 +46,7 @@ const AnimalCharitiesDisplay = ({ name } : {name: string}) => {
     };
 
     const findCharities = (animalName: string) => {
+        setMatchingCharities([])
         getMatchingCharities(animalName)
         .then((res) => setMatchingCharities(res.data.data))
         .catch((err) => {
@@ -44,22 +62,39 @@ const AnimalCharitiesDisplay = ({ name } : {name: string}) => {
     console.log(matchingCharities, 'matching');
 
     return (
+                <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
                     <Box>
-                        <Button onClick={(e) => {
+                        <Button 
+                        onClick={(e) => {
                             handleClick(e)
                             findCharities(name)
-                        }} color="primary" variant="outlined">Find Ranked Charities To Help</Button>
-                        <Popover id={id} open={open} anchorEl={anchorEl}>
-                            <Paper className={classes.overviewBox} elevation={2}>
-                                {matchingCharities && matchingCharities.length > 0 && matchingCharities.map((charity: CharitiesProps) => (
-                                    <div>
-                                        <Typography align="center" variant="subtitle1">{charity.charityName}</Typography>
-                                        <Link align="center" href={charity.charityNavigatorURL}>Visit on Charity Navigator</Link>
-                                    </div>
-                                ))}                            
+                        }} 
+                        variant="contained"
+                        color="primary"
+                        >
+                            Find Ranked Charities To Help
+                        </Button>
+                        <Popper id={id} open={open} anchorEl={anchorEl}>
+                            <Paper className={classes.paperCharitiesList} elevation={2}>
+                                {matchingCharities && matchingCharities.length > 0 ? matchingCharities.map((charity: CharitiesProps) => (
+                                    <Paper elevation={1} className={classes.paperLinkContainer}>
+                                        <Link 
+                                            target="blank"
+                                            color="primary"
+                                            underline="always"
+                                            align="center" 
+                                            href={charity.charityNavigatorURL}>
+                                                {charity.charityName}
+                                        </Link>
+                                    </Paper>
+                                )) : (
+                                    <CircularProgress className={classes.circularProgress} size={100} />
+                                )}                            
                             </Paper>
-                        </Popover>
+                        </Popper>
                     </Box>
+                </ClickAwayListener>
+                   
     )
 }
 

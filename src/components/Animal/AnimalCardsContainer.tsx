@@ -18,10 +18,11 @@ const useStyles = makeStyles({
         height: '600px',
         overflow: 'auto',
         marginTop: '200px',
+        padding: '10px',
         backgroundColor: 'whitesmoke',
     },
     animalDetailedViewContainer: {
-        height: '600px',
+        height: '625px',
         overflow: 'auto',
         marginTop: '200px',
         backgroundColor: 'whitesmoke',
@@ -45,6 +46,13 @@ const AnimalCardsContainer = () => {
         .catch((err) => console.error(err))
     }, []);
 
+    //on initial render, select the first animal
+    useEffect(()  => {
+        if (animalsData && animalsData.length > 0 && !selectedAnimal.name) {
+            setSelectedAnimal(animalsData[0]);
+        }
+    }, [animalsData, selectedAnimal]);
+
     console.log(animalsData, 'here');
 
     return (
@@ -53,7 +61,7 @@ const AnimalCardsContainer = () => {
                 <Grid item xs={5}>
                     <Box className={classes.animalCardsContainer}>
                     {animalsData && animalsData.length > 0 && animalsData.map((animal) => (
-                        <AnimalOverviewCard animal={animal} setSelectedAnimal={setSelectedAnimal} />
+                        <AnimalOverviewCard selected={animal.name === selectedAnimal.name} animal={animal} setSelectedAnimal={setSelectedAnimal} />
                     ))}
                     </Box>
                 </Grid>

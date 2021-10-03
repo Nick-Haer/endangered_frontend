@@ -3,6 +3,7 @@ import { Box, Typography, Grid, Button, } from "@material-ui/core";
 import { getMatchingCharities } from "../../routes/animalDataRoutes";
 import { makeStyles } from '@material-ui/core/styles';
 import placeholderImage from "../../images/large-group-african-safari-animals-wildlife-conservation-concept-174172993.jpeg"
+import AnimalCharitiesDisplay from "./AnimalCharitiesDisplay";
 
 const useStyles = makeStyles({
     overviewBox: {
@@ -34,12 +35,6 @@ const AnimalDetailedDisplay = ({ selectedAnimal }: AnimalDetailedProps) => {
     const classes = useStyles();
     const { name, status, latin_name, image_url, description } = selectedAnimal;
 
-    const findCharities = (animalName: string) => {
-        getMatchingCharities(animalName)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err))    
-}
-
     console.log(name);
 
     return (
@@ -49,7 +44,7 @@ const AnimalDetailedDisplay = ({ selectedAnimal }: AnimalDetailedProps) => {
                         <Typography variant="h6" align="center">{name}</Typography>
                         <Typography className={classes.animalStatus} align="center">{status}</Typography>
                         <Typography align="center">{latin_name}</Typography>
-                        <Button onClick={() => findCharities(name)} color="primary" variant="outlined">Find Ranked Charities To Help</Button>
+                        <AnimalCharitiesDisplay name={name} />
                     </Box>
                 </Grid>
                 <Grid item container justify="flex-end" xs={3}>

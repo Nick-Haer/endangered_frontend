@@ -48,7 +48,11 @@ const AnimalCharitiesDisplay = ({ name } : {name: string}) => {
     const findCharities = (animalName: string) => {
         setMatchingCharities([])
         getMatchingCharities(animalName)
-        .then((res) => setMatchingCharities(res.data.data))
+        .then((res) => {
+            const charities = res.data.data;
+            charities.sort((a : CharitiesProps, b: CharitiesProps) => a.charityName.localeCompare(b.charityName))
+            setMatchingCharities(charities);
+        })
         .catch((err) => {
             setMatchingCharities([])
             console.error(err)

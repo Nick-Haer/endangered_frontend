@@ -16,6 +16,8 @@ A relatively simple app, Endangered became a fun way to practice Python/Django a
 
 Check out this project deployed to heroku [here](https://endangered.herokuapp.com/)
 
+Check out the backend [here](https://github.com/Nick-Haer/endangered_backend)
+
 ## Challenges
 
 My primary challenge with endangered was to navigate the process of hosting and connecting a Python/Django backend to a TypeScript front end. I'd been wanting to practice both, and though there were some occasional surprises compared to the React/NodeJS I'm more used to, I enjoyed the process of getting the two working together.

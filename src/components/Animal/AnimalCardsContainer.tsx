@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid } from "@material-ui/core";
+import { Box, Grid, CircularProgress } from "@material-ui/core";
 import { getAllanimals } from "../../routes/animalDataRoutes";
 import AnimalOverviewCard from "./AnimalOverviewCard";
 import AnimalDetailedDisplay from "./AnimalDetailedDataDisplay";
@@ -33,6 +33,7 @@ const useStyles = makeStyles({
 const AnimalCardsContainer = () => {
     const classes = useStyles();
     const [animalsData, setAnimalsData] = useState([]);
+    const [fetchingAnimalsData, toggleFetchingAnnimalsData] = useState(false);
     const [selectedAnimal, setSelectedAnimal] = useState({        
         name: '',
         status: '',
@@ -41,10 +42,17 @@ const AnimalCardsContainer = () => {
         image_url: '',});
 
     useEffect(() => {
+        toggleFetchingAnnimalsData(true);
         getAllanimals()
-        .then((res) => setAnimalsData(res.data.data))
-        .catch((err) => console.error(err))
-    }, []);
+        .then((res) => {
+            toggleFetchingAnnimalsData(false);
+            setAnimalsData(res.data.data)
+        })
+        .catch((err) => {
+            toggleFetchingAnnimalsData(false);
+            console.error(err)
+        })
+    }, [toggleFetchingAnnimalsData]);
 
     //on initial render, select the first animal
     useEffect(()  => {
@@ -53,10 +61,9 @@ const AnimalCardsContainer = () => {
         }
     }, [animalsData, selectedAnimal]);
 
-    console.log(animalsData, 'here');
-
     return (
         <Box className={classes.container}>
+            {fetchingAnimalsData ? <CircularProgress color="primary" /> : (
             <Grid container justify="center">
                 <Grid item xs={5}>
                     <Box className={classes.animalCardsContainer}>
@@ -71,7 +78,8 @@ const AnimalCardsContainer = () => {
                         <AnimalDetailedDisplay selectedAnimal={selectedAnimal} />
                     </Box>
                 </Grid>
-            </Grid>
+        </Grid>
+            )}
         </Box>
     )
 }

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Button, } from "@material-ui/core";
-import { getMatchingCharities } from "../../routes/animalDataRoutes";
+import React from "react";
+import { Box, Typography, Grid, } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import placeholderImage from "../../images/large-group-african-safari-animals-wildlife-conservation-concept-174172993.jpeg"
 import AnimalCharitiesDisplay from "./AnimalCharitiesDisplay";
@@ -11,8 +10,8 @@ const useStyles = makeStyles({
       width: '90%',
     },
     image: {
-        width: '150px',
-        height: '150px',
+        width: '100px',
+        height: '100px',
         border: '1px solid black',
         marginTop: '20px',
         marginRight: '20px',

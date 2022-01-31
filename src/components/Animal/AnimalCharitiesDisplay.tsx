@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Button, Popper, 
-    Popover, Paper, Link, ClickAwayListener, CircularProgress } from "@material-ui/core";
+import React, { useState } from "react";
+import { Box, Button, Popper, 
+    Paper, Link, ClickAwayListener, CircularProgress } from "@material-ui/core";
 import { getMatchingCharities } from "../../routes/animalDataRoutes";
 import { makeStyles } from '@material-ui/core/styles';
-import placeholderImage from "../../images/large-group-african-safari-animals-wildlife-conservation-concept-174172993.jpeg"
 
 const useStyles = makeStyles({
     paperCharitiesList: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles({
         textAlign: 'center',
     },
     viewCharitiesButton: {
-        color: '#00008b',
+        border: '1px solid rgba(0, 0, 0, 0.7)',
     },
     circularProgress: {
         display: 'block',
@@ -39,7 +38,7 @@ const AnimalCharitiesDisplay = ({ name } : {name: string}) => {
     const classes = useStyles();
 
     const [matchingCharities, setMatchingCharities] = useState([]);
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event: any) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -73,6 +72,7 @@ const AnimalCharitiesDisplay = ({ name } : {name: string}) => {
                             handleClick(e)
                             findCharities(name)
                         }} 
+                        className={classes.viewCharitiesButton}
                         variant="contained"
                         color="primary"
                         >
